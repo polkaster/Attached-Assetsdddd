@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube SEO & Algorithm Helper</title>
+    <style>
+        :root {
+            --primary: #FF0000;
+            --dark: #282828;
+            --light: #f9f9f9;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 { margin: 0; color: var(--dark); }
+        h1 span { color: var(--primary); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+
+        .result-box {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            position: relative;
+        }
+
+        .copy-btn {
+            background-color: var(--dark);
+            margin-top: 5px;
+            font-size: 12px;
+            padding: 5px 10px;
+            width: auto;
+        }
+
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .tips {
+            font-size: 0.9em;
+            color: #666;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>YouTube <span>SEO</span> & Algorithm Helper</h1>
+        <p>Buat metadata yang disukai algoritma agar video mudah ditemukan.</p>
+    </header>
+
+    <div class="grid">
+        <!-- INPUT SECTION -->
+        <div class="card">
+            <h3>1. Masukkan Data Video</h3>
+            
+            <label>Kata Kunci Utama (Keyword):</label>
+            <input type="text" id="mainKeyword" placeholder="Contoh: Cara Masak Nasi Goreng">
+            
+            <label>Judul Video Saat Ini:</label>
+            <input type="text" id="videoTitle" placeholder="Judul draft Anda...">
+            
+            <label>Deskripsi Singkat:</label>
+            <textarea id="videoDesc" placeholder="Isi video ini tentang apa?"></textarea>
+
+            <div class="tips">
+                <strong>Tips Algoritma:</strong> Pastikan Kata Kunci Utama ada di 60 karakter pertama Judul dan Deskripsi.
+            </div>
+        </div>
+
+        <!-- RESULT SECTION -->
+        <div class="card">
+            <h3>2. Hasil Optimasi</h3>
+            
+            <label>SEO Score:</label>
+            <div class="score-display" id="seoScore">0/100</div>
+
+            <label>Judul Optimasi (AI Suggestion):</label>
+            <div class="result-box" id="optimizedTitle">Masukkan data untuk melihat saran...</div>
+            <button class="copy-btn" onclick="copyToClipboard('optimizedTitle')">Salin Judul</button>
+
+            <label style="margin-top: 15px;">Deskripsi Siap Upload:</label>
+            <div class="result-box" id="optimizedDesc">...</div>
+            <button class="copy-btn" onclick="copyToClipboard('optimizedDesc')">Salin Deskripsi</button>
+
+            <label style="margin-top: 15px;">Tag / Keywords:</label>
+            <div class="result-box" id="tagsResult">...</div>
+            <button class="copy-btn" onclick="copyToClipboard('tagsResult')">Salin Tag</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Event Listeners untuk update real-time
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('input', calculateSEO);
+    });
+
+    function copyToClipboard(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Teks berhasil disalin!');
+        });
+    }
+
+    function calculateSEO() {
+        const keyword = document.getElementById('mainKeyword').value.trim();
+        const title = document.getElementById('videoTitle').value.trim();
+        const desc = document.getElementById('videoDesc').value.trim();
+
+        if (!keyword) return;
+
+        // 1. Generate Optimized Title
+        let optimizedT = "";
+        if (title.toLowerCase().includes(keyword.toLowerCase())) {
+            optimizedT = `✅ Judul Anda sudah mengandung Keyword! (Coba tambahkan emoji atau angka, misal: [2024])`;
+        } else {
+            optimizedT = `💡 Saran Judul: ${keyword} - Cara Mudah & Cepat | Tutorial Lengkap 2024`;
+        }
+        document.getElementById('optimizedTitle').innerText = optimizedT;
+
+        // 2. Generate Optimized Description
+        // Format: Hook (Keyword), Isi, CTA, Tags
+        const socialLinks = `\n\n🔗 Follow Saya:\nInstagram: https://instagram.com/\nTikTok: https://tiktok.com/@\n\n#SEO #YouTubeIndonesia #${keyword.replace(/\s/g, '')}`;
+        document.getElementById('optimizedDesc').innerText = `${keyword} - Di video ini kita akan membahas tentang ${keyword}. Pastikan tonton sampai habis!\n\n👇 Ringkasan:\n- Apa itu ${keyword}?\n- Tips terbaik ${keyword}\n\n${socialLinks}`;
+
+        // 3. Generate Tags
+        const tags = [
+            keyword, 
+            `${keyword} tutorial`, 
+            `${keyword} indonesia`, 
+            `cara ${keyword}`, 
+            `tips ${keyword}`,
+            `review ${keyword}`,
+            `${keyword} 2024`,
+            `${keyword} mudah`
+        ].join(', ');
+        document.getElementById('tagsResult').innerText = tags;
+
+        // 4. Calculate SEO Score
+        let score = 0;
+        
+        // Cek Keyword di Judul (Bobot 40)
+        if (title.toLowerCase().includes(keyword.toLowerCase())) score += 40;
+        
+        // Cek Panjang Judul (Ideal 60 char) (Bobot 20)
+        if (title.length >= 40 && title.length <= 70) score += 20;
+        else if (title.length > 0) score += 10;
+
+        // Cek Keyword di Deskripsi (Bobet 20)
+        if (desc.toLowerCase().includes(keyword.toLowerCase())) score += 20;
+
+        // Cek Panjang Deskripsi (Bobet 20)
+        if (desc.length > 200) score += 20;
+        else if (desc.length > 50) score += 10;
+
+        // Update UI Score
+        const scoreEl = document.getElementById('seoScore');
+        scoreEl.innerText = score + "/100";
+        
+        if(score >= 80) scoreEl.style.color = "green";
+        else if(score >= 50) scoreEl.style.color = "orange";
+        else scoreEl.style.color = "red";
+    }
+</script>
+
+</body>
+</html>

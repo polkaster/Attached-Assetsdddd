@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "YouTube SEO Helper"
+version = "1.0.0"
+id = "artifacts/yt-seo-helper"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21726
+
+[services.development]
+run = "pnpm --filter @workspace/yt-seo-helper run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/yt-seo-helper", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/yt-seo-helper/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21726"
+BASE_PATH = "/"
