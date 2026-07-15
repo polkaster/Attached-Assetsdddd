@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
-}
+export type GetTrendingParams = {
+/**
+ * ISO 3166-1 alpha-2 country code (e.g. ID, US, GB)
+ */
+regionCode?: string;
+};

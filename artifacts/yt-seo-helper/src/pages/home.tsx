@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Copy, Info, CheckCircle2, Youtube, LayoutDashboard, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
@@ -7,12 +7,25 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { useLocation } from 'wouter';
 
 export default function Home() {
+  const [location] = useLocation();
   const [keyword, setKeyword] = useState('');
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const { toast } = useToast();
+
+  // Read keyword from URL search params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlKeyword = params.get('keyword');
+    if (urlKeyword) {
+      setKeyword(urlKeyword);
+      // Clear the URL param after setting the keyword
+      window.history.replaceState({}, '', location.split('?')[0]);
+    }
+  }, [location]);
 
   const { score, hasKeywordInTitle, hasKeywordInDesc } = useMemo(() => {
     let score = 0;
@@ -94,7 +107,7 @@ export default function Home() {
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-4 md:p-8 font-sans selection:bg-primary/30">
+    <div className="bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="space-y-3 border-b border-border pb-6 pt-4">
           <div className="flex items-center gap-3">

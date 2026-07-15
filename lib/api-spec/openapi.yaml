@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: trending
+    description: YouTube trending operations
 paths:
   /healthz:
     get:
@@ -24,6 +26,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /trending:
+    get:
+      operationId: getTrending
+      tags: [trending]
+      summary: Get trending YouTube videos
+      description: Fetches trending videos from YouTube for a given region
+      parameters:
+        - name: regionCode
+          in: query
+          required: false
+          schema:
+            type: string
+            default: "ID"
+            description: ISO 3166-1 alpha-2 country code (e.g. ID, US, GB)
+      responses:
+        "200":
+          description: List of trending videos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrendingResponse"
+        "502":
+          description: Failed to fetch from YouTube
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +62,49 @@ components:
           type: string
       required:
         - status
-
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    TrendingVideo:
+      type: object
+      properties:
+        videoId:
+          type: string
+        title:
+          type: string
+        channelName:
+          type: string
+        viewCount:
+          type: string
+        publishedAt:
+          type: string
+        thumbnailUrl:
+          type: string
+        duration:
+          type: string
+        rank:
+          type: integer
+      required:
+        - videoId
+        - title
+        - channelName
+        - viewCount
+        - thumbnailUrl
+        - duration
+        - rank
+    TrendingResponse:
+      type: object
+      properties:
+        videos:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrendingVideo"
+        regionCode:
+          type: string
+      required:
+        - videos
+        - regionCode

@@ -5,13 +5,6 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
-
-export interface ErrorResponse {
-  error: string;
-}
 
 export interface TrendingVideo {
   videoId: string;
@@ -23,16 +16,3 @@ export interface TrendingVideo {
   duration: string;
   rank: number;
 }
-
-export interface TrendingResponse {
-  videos: TrendingVideo[];
-  regionCode: string;
-}
-
-export type GetTrendingParams = {
-/**
- * ISO 3166-1 alpha-2 country code (e.g. ID, US, GB)
- */
-regionCode?: string;
-};
-
