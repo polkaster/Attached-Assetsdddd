@@ -1,0 +1,39 @@
+Relevant log lines
+
+Custom build command shown at line 10.
+PNPM version mismatch warning at line 18.
+Install stage failed at line 20.
+The actual error: ERR_PNPM_LOCKFILE_CONFIG_MISMATCH at line 24 with the suggestion to run "pnpm install --no-frozen-lockfile" at line 25.
+Final failure: "Failed to install dependencies" at line 27.
+Diagnosis
+
+Error type: pnpm lockfile / frozen-install failure.
+Cause: Netlify's install step attempted a frozen install but the repo's lockfile does not match the current package overrides/configuration (pnpm detects a mismatch and refuses to proceed). The log explicitly reports ERR_PNPM_LOCKFILE_CONFIG_MISMATCH and advises running pnpm install --no-frozen-lockfile to update the lockfile (line 24-line 25).
+The early pnpm version warning (line 18) indicates Corepack prepared pnpm@9 for the install; that is informational and not the root cause — the build still fails because the lockfile and package configuration are out of sync.
+Solution
+
+Verify repository has package.json and the pnpm lockfile committed
+
+Ensure package.json and pnpm-lock.yaml (or pnpm-lock.yaml v6/v5) are present and committed to the repo root. If they are missing, add/commit them before proceeding.
+Update the lockfile locally and commit it
+
+On your development machine run:
+# from your repo root
+pnpm install --no-frozen-lockfile
+git add pnpm-lock.yaml package.json
+git commit -m "Update pnpm lockfile to match overrides/config"
+git push
+This updates the lockfile so the frozen install will succeed on Netlify.
+(Alternative / additional) Ensure Netlify runs the install command with --no-frozen-lockfile (if you prefer not to update lockfile from CI)
+In Netlify Site settings → Build & deploy → Continuous Deployment → Build settings, set the Install command to: pnpm install --no-frozen-lockfile
+Or add to netlify.toml:
+[build]
+  command = "pnpm install --no-frozen-lockfile && <your existing build command>"
+Note: this avoids failure by allowing the install to update the lockfile during the build, but committing the updated lockfile (step 2) is the recommended practice.
+Optional: Pin the pnpm version for reproducible installs
+Add a packageManager field in package.json (helps Corepack pick the intended pnpm):
+{
+  "packageManager": "pnpm@9.15.9"
+}
+Then run pnpm install --no-frozen-lockfile and commit changes. This reduces warnings like the one at line 18.
+After performing step 2 (preferred) re-trigger a Netlify deploy; the install step should succeed.

@@ -5,8 +5,10 @@
 
 [build.environment]
   NODE_VERSION  = "20"
-  PNPM_VERSION  = "9"
+  PNPM_VERSION  = "10"
   BASE_PATH     = "/"
+  # CI=false prevents pnpm from defaulting to --frozen-lockfile on its auto-install step
+  CI            = "false"
 
 # Proxy /api/trending → Netlify Function (no backend server needed)
 [[redirects]]
