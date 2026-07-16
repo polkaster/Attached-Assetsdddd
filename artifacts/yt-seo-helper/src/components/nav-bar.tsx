@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Youtube, TrendingUp } from 'lucide-react';
+import { Youtube, TrendingUp, Facebook, Twitter } from 'lucide-react';
 
 export function NavBar() {
   const [location] = useLocation();
@@ -8,17 +8,34 @@ export function NavBar() {
     <div className="border-b border-border bg-background sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 md:px-8 h-14 flex items-center gap-8">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 group">
-          <div className="bg-primary text-primary-foreground p-1 rounded-lg shadow shadow-primary/30">
-            <Youtube className="w-4 h-4" />
-          </div>
+        <div className="flex items-center gap-3 shrink-0">
           <span
             className="rgb-text text-sm font-black tracking-tight leading-none select-none"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
           >
             Polkaster
           </span>
-        </Link>
+          <a
+            href="https://www.facebook.com/derby.ar.7"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-7 h-7 rounded-lg transition-all hover:scale-110 hover:shadow-lg"
+            style={{ background: '#1877F2' }}
+            title="Facebook"
+          >
+            <Facebook className="w-3.5 h-3.5 text-white" />
+          </a>
+          <a
+            href="https://x.com/polkaster300"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-7 h-7 rounded-lg transition-all hover:scale-110 hover:shadow-lg"
+            style={{ background: '#000000' }}
+            title="X / Twitter"
+          >
+            <Twitter className="w-3.5 h-3.5 text-white" />
+          </a>
+        </div>
 
         {/* Divider */}
         <div className="h-5 w-px bg-border" />
