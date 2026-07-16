@@ -9,6 +9,11 @@ export function NavBar() {
       <div className="max-w-6xl mx-auto px-4 md:px-8 h-14 flex items-center gap-8">
         {/* Brand */}
         <div className="flex items-center gap-3 shrink-0">
+          <img
+            src="/logo.jpg"
+            alt="Polkaster"
+            className="w-9 h-9 rounded-full object-cover ring-2 ring-primary/60 shadow-lg shadow-primary/20"
+          />
           <span
             className="rgb-text text-sm font-black tracking-tight leading-none select-none"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
