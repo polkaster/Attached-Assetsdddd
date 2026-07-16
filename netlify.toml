@@ -1,0 +1,21 @@
+[build]
+  command = "pnpm install && pnpm --filter @workspace/yt-seo-helper run build"
+  publish = "artifacts/yt-seo-helper/dist/public"
+  functions  = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION  = "20"
+  PNPM_VERSION  = "9"
+  BASE_PATH     = "/"
+
+# Proxy /api/trending → Netlify Function (no backend server needed)
+[[redirects]]
+  from   = "/api/trending"
+  to     = "/.netlify/functions/trending"
+  status = 200
+
+# SPA fallback — all other paths serve index.html
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
