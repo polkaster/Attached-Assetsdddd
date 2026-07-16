@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'wouter';
 import { Youtube, TrendingUp, Facebook, Twitter } from 'lucide-react';
+import { SiYoutube } from 'react-icons/si';
 
 export function NavBar() {
   const [location] = useLocation();
@@ -39,6 +40,16 @@ export function NavBar() {
             title="X / Twitter"
           >
             <Twitter className="w-3.5 h-3.5 text-white" />
+          </a>
+          <a
+            href="https://youtube.com/@polkaster?si=WYKakLtJKGhadY1f"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-7 h-7 rounded-lg transition-all hover:scale-110 hover:shadow-lg"
+            style={{ background: '#FF0000' }}
+            title="YouTube"
+          >
+            <SiYoutube className="w-3.5 h-3.5 text-white" />
           </a>
         </div>
 
