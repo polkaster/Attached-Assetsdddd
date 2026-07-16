@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm install && pnpm --filter @workspace/yt-seo-helper run build"
+  command = "pnpm install --no-frozen-lockfile && pnpm --filter @workspace/yt-seo-helper run build"
   publish = "artifacts/yt-seo-helper/dist/public"
   functions  = "netlify/functions"
 
