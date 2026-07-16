@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AdBanner } from '@/components/ad-banner';
 import { useGetTrending } from '@workspace/api-client-react';
 import { TrendingUp, Play, Eye, Clock, AlertCircle, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -63,6 +64,9 @@ export default function Trending() {
             </div>
           </div>
         </header>
+
+        {/* Ad — below header, above video grid */}
+        <AdBanner className="opacity-90" />
 
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

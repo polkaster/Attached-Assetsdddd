@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { AdBanner } from '@/components/ad-banner';
 import { Copy, Info, CheckCircle2, Youtube, LayoutDashboard, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
@@ -137,6 +138,9 @@ export default function Home() {
             Buat metadata yang disukai algoritma agar video mudah ditemukan.
           </p>
         </header>
+
+        {/* Ad — below header, above content */}
+        <AdBanner className="opacity-90" />
 
         <div className="grid lg:grid-cols-[1fr_1.1fr] gap-8 md:gap-12 items-start pb-12">
           {/* Left Column: Input */}
