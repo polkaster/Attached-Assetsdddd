@@ -110,13 +110,28 @@ export default function Home() {
     <div className="bg-background text-foreground p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="space-y-3 border-b border-border pb-6 pt-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="bg-primary text-primary-foreground p-2 rounded-xl shadow-lg shadow-primary/20">
               <Youtube className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-              YouTube SEO <span className="text-muted-foreground font-light">&</span> Algorithm Helper
-            </h1>
+            <div>
+              <h1
+                className="rgb-text text-3xl md:text-4xl font-black tracking-tight leading-none"
+                style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              >
+                Youtube SEO Tool
+              </h1>
+              <p
+                className="rgb-text text-base font-bold tracking-widest uppercase mt-1"
+                style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  animationDelay: '1s',
+                  opacity: 0.85,
+                }}
+              >
+                By Polkaster
+              </p>
+            </div>
           </div>
           <p className="text-muted-foreground text-lg max-w-2xl">
             Buat metadata yang disukai algoritma agar video mudah ditemukan.

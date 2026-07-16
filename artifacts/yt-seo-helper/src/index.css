@@ -1,4 +1,36 @@
 @import 'tailwindcss';
+
+@keyframes rgb-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.rgb-text {
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff6600,
+    #ffff00,
+    #00ff88,
+    #00cfff,
+    #7700ff,
+    #ff00cc,
+    #ff0000
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgb-flow 4s ease infinite;
+}
+
+@keyframes rgb-glow {
+  0%, 100% { text-shadow: 0 0 8px #ff0055, 0 0 20px #ff005540; }
+  25%       { text-shadow: 0 0 8px #00ffcc, 0 0 20px #00ffcc40; }
+  50%       { text-shadow: 0 0 8px #00aaff, 0 0 20px #00aaff40; }
+  75%       { text-shadow: 0 0 8px #bb00ff, 0 0 20px #bb00ff40; }
+}
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
